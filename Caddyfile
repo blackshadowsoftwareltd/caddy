@@ -1,0 +1,44 @@
+# Personal site
+personal.blackshadow.software {
+    root * /var/www/personal
+    encode gzip
+    file_server
+
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+    }
+}
+
+# Rust API Backend
+fuelcost.blackshadow.software {
+    reverse_proxy localhost:8880
+
+    # Add CORS headers to all responses
+    header {
+        Access-Control-Allow-Origin "https://fuelcost-dashboard.blackshadow.software"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        Access-Control-Allow-Credentials "true"
+    }
+
+    # Handle CORS preflight requests
+    @cors_preflight method OPTIONS
+    respond @cors_preflight 204
+
+}
+
+# Fuel Cost Dashboardy
+fuelcost-dashboard.blackshadow.software {
+    root * /var/www/fuelcost_dashboard
+    encode gzip
+    file_server
+
+    # Security headers
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+    }
+}
