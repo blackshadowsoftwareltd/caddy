@@ -1,16 +1,27 @@
 # Personal site
-personal.blackshadow.software {
-    root * /var/www/personal
-    encode gzip
-    file_server
+# personal.blackshadow.software {
+#     root * /var/www/personal
+#     encode gzip
+#     file_server
 
+#     header {
+#         X-Content-Type-Options "nosniff"
+#         X-Frame-Options "DENY"
+#         X-XSS-Protection "1; mode=block"
+#     }
+# }
+
+# Portfolio Website
+portfolio.blackshadow.software {
+    reverse_proxy localhost:3001
+    
     header {
         X-Content-Type-Options "nosniff"
         X-Frame-Options "DENY"
         X-XSS-Protection "1; mode=block"
+        Strict-Transport-Security "max-age=31536000"
     }
 }
-
 # Rust API Backend
 fuelcost.blackshadow.software {
     reverse_proxy localhost:8880
