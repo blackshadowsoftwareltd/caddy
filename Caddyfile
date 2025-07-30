@@ -13,7 +13,7 @@
 
 # Portfolio Website
 portfolio.blackshadow.software {
-    reverse_proxy localhost:3001
+    reverse_proxy localhost:3000
     
     header {
         X-Content-Type-Options "nosniff"
