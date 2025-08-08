@@ -53,3 +53,36 @@ fuelcost-dashboard.blackshadow.software {
         X-XSS-Protection "1; mode=block"
     }
 }
+
+# Server Tester 
+server-tester.blackshadow.dev {
+      reverse_proxy localhost:8090
+
+      # Enable CORS for API requests
+      header {
+          Access-Control-Allow-Origin *
+          Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+          Access-Control-Allow-Headers "Content-Type, Authorization"
+      }
+
+      # Enable compression
+      encode gzip zstd
+
+      # Security headers
+      header {
+          # Remove server info
+          -Server
+
+          # Add security headers
+          X-Content-Type-Options nosniff
+          X-Frame-Options DENY
+          X-XSS-Protection "1; mode=block"
+          Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+          Referrer-Policy "strict-origin-when-cross-origin"
+      }
+
+      # Logging
+      log {
+          output file /var/log/caddy/server-tester.log
+      }
+  }
